@@ -1,0 +1,27 @@
+---
+title: 'District Map'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(leaflet)
+library(htmltools)
+```
+
+# Interactive District Map
+
+```{r map, fig.width=10, fig.height=8}
+# Your map code here
+# Load your shapefile: Dist_shapefile
+
+labels <- sprintf('District: %s', Dist_shapefile$NewDist) %>% lapply(htmltools::HTML)
+
+leaflet(Dist_shapefile) %>%
+  addTiles() %>%
+  addPolygons(
+    fillColor = ~colorFactor('Set3', NewDist)(NewDist),
+    weight = 2, opacity = 1, color = 'white',
+    fillOpacity = 0.7, label = labels
+  )
+```
